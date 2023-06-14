@@ -1,45 +1,45 @@
-import random
+from random import randint
 
-role_class = {"warrior": {"health": 14,
+role_class = {"warrior": {"health": 25,
                           "damage": 1},
-              "healer": {"health": 10,
+              "healer": {"health": 20,
                          "damage": 2},
-              "mage": {"health": 7,
+              "mage": {"health": 15,
                        "damage": 4},
-              "gunner": {"health": 8,
+              "ranged": {"health": 17,
                          "damage": 3},
-              "hunter": {"health": 8,
+              "hunter": {"health": 17,
                          "damage": 3}}
 
 
 def attack():
-    roll_attack = random.randint(1, 4)
+    roll_attack = randint(0, 3)
     return roll_attack
 
 
-def defence():
-    roll_defence = random.randint(1, 4)
-    return roll_defence
+def defend():
+    roll_defend = randint(0, 3)
+    return roll_defend
 
 
 # Game set up
-player1_role = input("""Player 1 please select a character:
+player1_role = input("""Player 1 please select a character
 warrior
 healer
 mage
-gunner
+ranged
 hunter: """)
 print(f"Player1: {player1_role}")
 
-player2_role = input("""\nPlayer2 please select a character:
+player2_role = input("""\nPlayer2 please select a character
 warrior
 healer
 mage
-gunner
+ranged
 hunter: """)
 print(f"Player2: {player2_role}\n")
 
-# player selection
+# players selection
 if player1_role in role_class.keys():
     player1 = player1_role
 
@@ -51,30 +51,31 @@ player2_hp = role_class[player2_role]["health"]
 
 game_on = True
 while game_on:
-    # player1 Turn
-    print(f"\nplayer 1 current health {player1_hp}")
-    print(f"player 2 current health {player2_hp}\n")
+    print(f"\nplayer1 current health: {player1_hp}")
+    print(f"player2 current health: {player2_hp}\n")
 
+    # player1 Turn
     if player1_hp <= 0:
         print("Game over! Player2 wins")
         game_on = False
         break
     else:
-        print("player1 Attack Turn")
+        print(f"Player1 Attack Turn")
         attack_roll = attack()
-        print(f"Your roll is {attack_roll}")
+        print(f"Your roll: {attack_roll}")
 
-        defence_roll = defence()
-        print(f"Player2's roll is {defence_roll}")
+        defend_roll = defend()
+        print(f"Player2's roll: {defend_roll}")
 
-        if attack_roll > defence_roll:
-            player2_hp -= role_class[player1_role]['damage']
-            print(f"{role_class[player1_role]['damage']} damage inflicted! Player2's health point is {player2_hp}")
-        elif attack_roll == defence_roll:
-            print("You do no damage")
+        if attack_roll > defend_roll:
+            damage = (attack_roll - defend_roll) + (role_class[player1_role]['damage'])
+            player2_hp -= damage
+            print(f"{damage} damage inflicted! Player2's health point: {player2_hp}")
+        elif attack_roll == defend_roll:
+            print("No damage!")
         else:
             player1_hp -= 1
-            print(f"1 damage taken, your health point is {player1_hp}")
+            print(f"1 damage taken, your health point: {player1_hp}")
 
     # Player2 Turn
     if player2_hp <= 0:
@@ -83,18 +84,19 @@ while game_on:
         break
 
     else:
-        print("\nPlayer2 Attack Turn")
+        print(f"\nPlayer2 Attack Turn")
         attack_roll = attack()
-        print(f"Your roll is {attack_roll}")
+        print(f"Your roll: {attack_roll}")
 
-        defence_roll = defence()
-        print(f"Player1's roll is {defence_roll}")
+        defend_roll = defend()
+        print(f"Player1's roll: {defend_roll}")
 
-        if attack_roll > defence_roll:
-            player1_hp -= role_class[player2_role]['damage']
-            print(f"{role_class[player2_role]['damage']} damage inflicted! Player1's health point is {player1_hp}")
-        elif attack_roll == defence_roll:
-            print("You do no damage")
+        if attack_roll > defend_roll:
+            damage = (attack_roll - defend_roll) + (role_class[player2_role]['damage'])
+            player1_hp -= damage
+            print(f"{damage} damage inflicted! Player1's health point: {player1_hp}")
+        elif attack_roll == defend_roll:
+            print("No damage!")
         else:
             player2_hp -= 1
-            print(f"1 Damage taken, your health point is {player2_hp}")
+            print(f"1 Damage taken, your health point: {player2_hp}")
